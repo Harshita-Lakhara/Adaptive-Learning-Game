@@ -1,3 +1,18 @@
 # Adaptive-Learning-Game
 An interactive learning game using gamification, quizzes, and ML to teach Math, Coding, and Science. Includes scenario questions, coding challenges, memory games, and real-time feedback. Built with HTML, CSS, JS, Python, and SQL for a fun, personalized learning experience.
 ![image](https://github.com/user-attachments/assets/c1452c95-d3fb-46e8-b99b-7834ab42430e)
+![image](https://github.com/user-attachments/assets/0e41ae96-08f9-4854-83f0-840cf951e7f5)
+![image](https://github.com/user-attachments/assets/3ffe04d3-cd47-47de-a9a8-0c0a27e43019)
+![image](https://github.com/user-attachments/assets/d24e7600-d55d-46c5-b12c-8a3436b3b2da)
+![image](https://github.com/user-attachments/assets/308d803c-11ed-4990-8fc8-45b4d482546c)
+![image](https://github.com/user-attachments/assets/5f367d7d-3728-4fad-92ae-f9a67a72b5f8)
+![image](https://github.com/user-attachments/assets/9236da57-ea06-43a0-aaff-9964958eafd6)
+![image](https://github.com/user-attachments/assets/82d633a7-737b-48e6-a630-bb819f6fa5de)
+![image](https://github.com/user-attachments/assets/c69671ac-25ae-417d-988b-0ae63f453b8e)
+![image](https://github.com/user-attachments/assets/d03f8067-3554-4acb-8e25-9e70c7ee9efb)
+![image](https://github.com/user-attachments/assets/9206145c-e791-4dc5-81a0-66d63c60c24c)
+![image](https://github.com/user-attachments/assets/4a64a74a-b3b8-4ba8-b1c0-f03860e00628)
+![image](https://github.com/user-attachments/assets/637f340f-ab61-4edf-a4af-ead649d806cc)
+![image](https://github.com/user-attachments/assets/a7cbeb63-eae8-4cc6-8555-82281d14bfbd)
+![image](https://github.com/user-attachments/assets/0b9d927f-7682-4a4d-bdcb-e1bf5f6af5e7)
+![image](https://github.com/user-attachments/assets/40a79951-3d14-4149-a68e-48edd4fd17d6)

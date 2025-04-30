@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: rgb(244, 238, 238);
+      padding: 40px;
+      margin: 0;
+    }
+
+    .profile-card {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .score-box {
+      margin-top: 10px;
+      font-size: 1.1em;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      font-size: 0.95em;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-box {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .color-strong {
+      background-color: rgba(54, 162, 235, 0.6);
+    }
+
+    .color-weak {
+      background-color: rgba(255, 99, 132, 0.6);
+    }
+
+    #progressChart {
+      width: 100%;
+      height: 300px;
+    }
+
+    .tables-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .table-wrapper {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .table-title {
+      text-align: left;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f7f7f7;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="profile-card">
+    <h2 id="username">Username</h2>
+    <p class="score-box"><strong>High Score:</strong> <span id="highScore">Loading...</span></p>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="color-box color-strong"></span> Strong Subjects 
+      </div>
+      <div class="legend-item">
+        <span class="color-box color-weak"></span> Weak Subjects 
+      </div>
+    </div>
+
+    <canvas id="progressChart"></canvas>
+
+    <div class="tables-container">
+      <!-- Weak Subjects Table -->
+      <div class="table-wrapper">
+        <div class="table-title">Weak Subjects</div>
+        <table id="weakSubjectsTable">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Strong Subjects Table -->
+      <div class="table-wrapper">
+        <div class="table-title">Strong Subjects</div>
+        <table id="strongSubjectsTable">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const username = sessionStorage.getItem("username");
+    document.getElementById("username").innerText = `${username}`;
+
+    fetch(`http://127.0.0.1:5000/get_scores/${username}`)
+      .then(response => response.json())
+      .then(data => {
+        if (!Array.isArray(data)) {
+          document.getElementById("highScore").innerText = "No data found";
+          return;
+        }
+
+        const subjects = [];
+        const scores = [];
+        let highScore = 0;
+        const weakSubjects = [];
+        const strongSubjects = [];
+
+        data.forEach(entry => {
+          subjects.push(entry.subject);
+          scores.push(entry.score);
+          if (entry.score > highScore) highScore = entry.score;
+
+          if (entry.score < 3) {
+            weakSubjects.push(entry);
+          } else {
+            strongSubjects.push(entry);
+          }
+        });
+
+        document.getElementById("highScore").innerText = highScore;
+
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: subjects,
+    datasets: [{
+      label: 'Scores',
+      data: scores,
+      backgroundColor: scores.map(score => score < 3 ? 'rgba(255, 99, 132, 0.6)' : 'rgba(54, 162, 235, 0.6)'),
+      borderColor: scores.map(score => score < 3 ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)'),
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        suggestedMax: 4
+      }
+    },
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        enabled: true
+      }
+    },
+    elements: {
+      bar: {
+        borderSkipped: false // prevents top edge highlight
+      }
+    },
+    hover: {
+      mode: null // disables hover mode that can trigger outlines
+    },
+    interaction: {
+      mode: 'index',
+      intersect: false
+    }
+  }
+});
+
+
+        const fillTable = (tableId, entries, emptyMsg) => {
+          const tbody = document.querySelector(`#${tableId} tbody`);
+          tbody.innerHTML = "";
+          if (entries.length === 0) {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td colspan="2">${emptyMsg}</td>`;
+            tbody.appendChild(row);
+          } else {
+            entries.forEach(item => {
+              const row = document.createElement("tr");
+              row.innerHTML = `<td>${item.subject}</td><td>${item.score}</td>`;
+              tbody.appendChild(row);
+            });
+          }
+        };
+
+        fillTable("weakSubjectsTable", weakSubjects, "No weak subjects 🎉");
+        fillTable("strongSubjectsTable", strongSubjects, "No strong subjects yet");
+
+      })
+      .catch(err => {
+        console.error("Error loading scores:", err);
+        document.getElementById("highScore").innerText = "Error";
+
+        const errorRow = `<tr><td colspan="2">Error loading subjects</td></tr>`;
+        document.querySelector("#weakSubjectsTable tbody").innerHTML = errorRow;
+        document.querySelector("#strongSubjectsTable tbody").innerHTML = errorRow;
+      });
+  </script>
+</body>
+</html>

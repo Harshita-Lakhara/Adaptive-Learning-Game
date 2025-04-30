@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Signup</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="card">
+        <form id="adaptive">
+            <p class="heading" id="form-title">Login</p>
+            <input type="text" id="name" class="input" placeholder="Full Name" style="display: none;">
+            <input class="input" placeholder="Username" type="text" id="username">
+            <input class="input" placeholder="Password" type="text" id="password"> 
+            <button class="btn" type="submit">Submit</button>
+        </form>
+        <p id="signup-text" class="toggle" onclick="toggleForm()">Don't have an account? Sign Up</p>
+        <p id="toggle-text" class="toggle" style="display: none;" onclick="toggleForm()">Already have an account? Login</p>
+
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>

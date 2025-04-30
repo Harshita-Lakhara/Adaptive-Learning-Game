@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biology Scenario Game</title>
+    <link rel="stylesheet" href="scenario_biology.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo"> 
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about-us">About</a></li>
+            <li><a href="subjects.html">Subjects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+        <!--Quit-->
+        <div class="quit-container">
+            <a href="science_scenario.html" class="quit-btn">Quit</a>
+        </div>
+    
+        <section class="scenario">
+            <h1 class="scenario-title">Biology Scenario Game</h1>
+            <p id="scenario-description"><strong>Scenario:</strong> You are a doctor treating a patient with a bacterial infection. What is the best approach?</p>
+    
+            <form class="scenario-form">
+                <div class="scenario-content">
+                    <img id="scenario-image" src="doctor.png" alt="Doctor treating patient" class="scenario-image">
+                    <div class="choices">
+                        <button type="button" class="choice-btn" onclick="checkAnswer('A')">A) Prescribe antibiotics</button>
+                        <button type="button" class="choice-btn" onclick="checkAnswer('B')">B) Recommend bed rest only</button>
+                        <button type="button" class="choice-btn" onclick="checkAnswer('C')">C) Advise drinking more water</button>
+                    </div>
+                </div>
+            </form>
+            <p id="result"></p>
+            <button id="next-btn" class="next-btn" onclick="nextScenario()">Next</button>
+        </section>
+        <script>
+            let currentScenario = 0;
+    
+            const scenarios = [
+                {
+                    description: "<strong>Scenario:</strong> You are a doctor treating a patient with a bacterial infection. What is the best approach?",
+                    image: "doctor.png",
+                    correctAnswer: "A",
+                    feedback: "✅ Correct! 🎯 Antibiotics are effective against bacterial infections!",
+                    choices: [
+                        "A) Prescribe antibiotics",
+                        "B) Recommend bed rest only",
+                        "C) Advise drinking more water"
+                    ]
+                },
+                {
+                    description: "<strong>Scenario:</strong> A plant is not growing properly despite receiving sunlight. What could be the issue?",
+                    image: "plant.jpg",
+                    correctAnswer: "B",
+                    feedback: "✅ Correct! 🎯 The plant might be lacking essential nutrients from the soil.",
+                    choices: [
+                        "A) Too much oxygen",
+                        "B) Lack of nutrients in the soil",
+                        "C) Not enough carbon dioxide"
+                    ]
+                },
+                {
+                    description: "<strong>Scenario:</strong> A person suddenly collapses due to a cardiac arrest. What is the immediate first-aid response?",
+                    image: "cpr.jpg",
+                    correctAnswer: "C",
+                    feedback: "✅ Correct! 🎯 Performing CPR can help restore circulation until medical help arrives.",
+                    choices: [
+                        "A) Give them water",
+                        "B) Make them lie down and wait",
+                        "C) Perform CPR"
+                    ]
+                }
+            ];
+    
+            function checkAnswer(choice) {
+                let result = document.getElementById("result");
+                let nextButton = document.getElementById("next-btn");
+    
+                result.style.visibility = "visible";
+    
+                if (choice === scenarios[currentScenario].correctAnswer) {
+                    result.innerHTML = scenarios[currentScenario].feedback;
+                    result.className = "result-message correct";
+                    nextButton.style.display = "block"; 
+                } else {
+                    result.textContent = "❌ Incorrect! 🤔 Try again.";
+                    result.className = "result-message wrong";
+                    nextButton.style.display = "none";
+                }
+            }
+    
+            function nextScenario() {
+                currentScenario++;
+    
+                if (currentScenario < scenarios.length) {
+                    document.getElementById("scenario-description").innerHTML = scenarios[currentScenario].description;
+                    document.getElementById("scenario-image").src = scenarios[currentScenario].image;
+                    document.getElementsByClassName("choice-btn")[0].textContent = scenarios[currentScenario].choices[0];
+                    document.getElementsByClassName("choice-btn")[1].textContent = scenarios[currentScenario].choices[1];
+                    document.getElementsByClassName("choice-btn")[2].textContent = scenarios[currentScenario].choices[2];
+    
+                    document.getElementById("result").textContent = ""; 
+                    document.getElementById("next-btn").style.display = "none"; 
+                } else {
+                    document.querySelector(".scenario").innerHTML = "<h1>Game Over 🎉</h1><h2>You've completed all scenarios!</h2>";
+                }
+            }
+        </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Puzzle</title>
+    <link rel="stylesheet" href="python_puzzle.css"> 
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo"> 
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about-us">About</a></li>
+            <li><a href="subjects.html">Subjects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <div id="quiz-container">
+        <div class="question" id="question1">
+            <p><strong>Question 1:</strong> I store multiple values in a single variable, but I'm not a dictionary. I am ordered and indexed. What am I?</p>
+            <div class="input-container">
+                <input type="text" class="answer-input" id="answer1" placeholder="Your answer">
+                <button class="next-btn" id="next1" data-question="question1">Next</button>
+            </div>
+        </div>
+        
+        <div class="question" id="question2" style="display: none;">
+            <p><strong>Question 2:</strong> I am used to iterate over sequences like lists, tuples, and strings in Python. What am I?</p>
+            <div class="input-container">
+                <input type="text" class="answer-input" id="answer2" placeholder="Your answer">
+                <button class="next-btn" id="next2" data-question="question2">Next</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="score-container" style="display: none;">
+        <div id="gif-container"></div>
+        <p>Your Score: <span id="score">0</span> / 2</p>
+        <button id="topics-btn" onclick="window.location.href='coding_puzzle.html'">Choose Another Topic</button>
+    </div>
+
+    <script>
+        const questions = document.querySelectorAll('.question');
+        const nextButtons = document.querySelectorAll('.next-btn');
+        const inputs = document.querySelectorAll('.answer-input');
+        const scoreContainer = document.getElementById('score-container');
+        const scoreElement = document.getElementById('score');
+        const gifContainer = document.getElementById('gif-container');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const correctAnswers = ["list", "for loop"]; 
+
+        nextButtons.forEach(button => button.style.display = 'none');
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', function () {
+                const nextButton = document.getElementById(`next${index + 1}`);
+                nextButton.style.display = this.value.trim() !== '' ? 'block' : 'none';
+            });
+        });
+
+        nextButtons.forEach((button, index) => {
+            button.addEventListener('click', function () {
+                const userAnswer = inputs[index].value.trim().toLowerCase(); 
+                
+                if (userAnswer === correctAnswers[index]) {
+                    score++; 
+                }
+
+                questions[currentQuestionIndex].style.display = 'none';
+                currentQuestionIndex++;
+
+                if (currentQuestionIndex < questions.length) {
+                    questions[currentQuestionIndex].style.display = 'block';
+                } else {
+                    scoreElement.textContent = score;
+                    scoreContainer.style.display = 'block';
+                    displayGif(score);
+                }
+            });
+        });
+
+        function displayGif(score) {
+            let gifUrl = "";
+            let message = "";
+
+            if (score === questions.length) {
+                gifUrl = "celebration.gif";
+                message = "🎉 Well done! You got a perfect score!";
+            } else if (score === 0) {
+                gifUrl = "better-luck-next-time.gif";
+                message = "😢 Better luck next time!";
+            } else {
+                gifUrl = "good-job.gif";
+                message = "👍 Good job! Keep practicing!";
+            }
+
+            gifContainer.innerHTML = `
+                <p>${message}</p>
+                <img src="${gifUrl}" alt="Score GIF">
+            `;
+        }
+    </script>
+</body>
+</html>

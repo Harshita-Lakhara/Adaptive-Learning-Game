@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <title>Adaptive Learning Game</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="logo.png" alt="Logo">
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about-us">About</a></li>
+      <li><a href="subjects.html">Subjects</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="templates/profile.html" class="profile-link">Profile</a></li>
+    </ul>
+
+  
+  </nav>
+
+  <!-- Home Section -->
+  <section class="home" data-aos="fade-right" data-aos-duration="1200">
+    <div class="home-content">
+      <div class="home-image" data-aos="zoom-in" data-aos-duration="1200">
+        <img src="home.jpg" alt="Learning Illustration">
+      </div>
+      <div class="home-text">
+        <h2 class="greeting" id="welcome-message" data-aos="fade-up" data-aos-duration="1200">
+          Welcome to Adaptive Learning Game
+        </h2>
+        <h1 class="greeting" data-aos="fade-up" data-aos-duration="1200">Welcome to Adaptive Learning Game</h1>
+        <p data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
+          Experience a personalized learning journey like never before.
+        </p>
+        <button class="btn" data-aos="fade-up" data-aos-delay="600" onclick="startGame()">Start Playing</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <div id="about-us" class="about-us" data-aos="fade-up" data-aos-duration="1000">
+    <h2 data-aos="zoom-in" data-aos-duration="1200">About Us</h2>
+
+    <p data-aos="fade-up" data-aos-duration="1400">
+      Welcome to <strong>Adaptive Learning Game</strong> – an interactive and engaging platform designed to enhance learning through fun and immersive experiences.
+    </p>
+
+    <p data-aos="fade-up" data-aos-duration="1400">
+      Our platform blends education with gamification, making learning dynamic and enjoyable. From <strong>challenging MCQs</strong> to <strong>interactive decision-making scenarios</strong>, every feature is crafted to promote active learning.
+    </p>
+
+    <h3 data-aos="fade-up" data-aos-duration="1400">🔹 Key Features</h3>
+
+    <div class="feature-list">
+      <p data-aos="fade-up" data-aos-duration="1400">
+        ✅ <strong>MCQ Challenges:</strong> Test your knowledge with engaging multiple-choice quizzes across various subjects.
+      </p>
+      <p data-aos="fade-up" data-aos-duration="1400">
+        ✅ <strong>Puzzle Games:</strong> Solve brain-teasing puzzles that enhance problem-solving skills.
+      </p>
+      <p data-aos="fade-up" data-aos-duration="1400">
+        ✅ <strong>Scenario-Based Decision Games:</strong> Face real-life situations and make choices that shape the outcome.
+      </p>
+      <p data-aos="fade-up" data-aos-duration="1400">
+        ✅ <strong>Instant Score Display:</strong> Get immediate feedback and track your progress in real-time.
+      </p>
+      <p data-aos="fade-up" data-aos-duration="1400">
+        ✅ <strong>Answer Review:</strong> At the end of each challenge, see the correct answers with detailed explanations.
+      </p>
+      <p data-aos="fade-up" data-aos-duration="1400">
+        ✅ <strong>Wide Subject Coverage:</strong> Explore a vast collection of topics across different subjects.
+      </p>
+      <p data-aos="fade-up" data-aos-duration="1400">
+        ✅ <strong>Personalized Learning:</strong> The system adapts based on your progress to provide a tailored learning experience.
+      </p>
+    </div>
+
+    <p data-aos="fade-up" data-aos-duration="1400">
+      Our mission is to make education <strong>fun, engaging, and effective</strong>.
+      Join us on this exciting learning journey and explore a whole new way of learning! 🚀
+    </p>
+  </div>
+
+  <script>
+    AOS.init();
+  </script>
+</body>
+</html>

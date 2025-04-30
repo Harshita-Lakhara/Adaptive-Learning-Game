@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arithmetic Quiz</title>
+    <link rel="stylesheet" href="arithmetic.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo"> 
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about-us">About</a></li>
+            <li><a href="subjects.html">Subjects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="quiz-heading">Arithmetic Quiz</div>
+    <div class="mcq-container">
+        <form id="mcq-form">
+            <div id="question-container"></div>
+            <button type="button" id="next-btn" style="display: none;">Next</button>
+        </form>
+    </div>
+
+    <div id="score-container" style="display: none;">
+        <div id="gif-container"></div>
+        <p>Your Score: <span id="score">0</span> / 4</p>
+        <button id="topics-btn" style="display: none;" onclick="window.location.href='math_mcq.html'">
+            Choose Another Topic
+        </button>
+    </div>
+
+<script>
+const questions = [
+    { question: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: "4" },
+    { question: "What is 3 + 3?", options: ["5", "6", "7", "8"], answer: "6" },
+    { question: "What is 5 - 2?", options: ["1", "2", "3", "4"], answer: "3" },
+    { question: "What is 7 * 1?", options: ["6", "7", "8", "9"], answer: "7" }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+const questionContainer = document.getElementById("question-container");
+const nextBtn = document.getElementById("next-btn");
+const scoreContainer = document.getElementById("score-container");
+const scoreElement = document.getElementById("score");
+const gifContainer = document.getElementById("gif-container");
+const topicsBtn = document.getElementById("topics-btn");
+
+function loadQuestion() {
+    questionContainer.innerHTML = "";
+    const questionData = questions[currentQuestionIndex];
+    const questionDiv = document.createElement("div");
+    questionDiv.classList.add("question");
+    questionDiv.innerHTML = `
+        <p class="question-number">${currentQuestionIndex + 1}.</p>
+        <p>${questionData.question}</p>
+        ${questionData.options.map(opt => `<div class="option" data-value="${opt}">${opt}</div>`).join('')}
+    `;
+    questionContainer.appendChild(questionDiv);
+    document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            nextBtn.style.display = 'inline-block';
+        });
+    });
+}
+nextBtn.addEventListener('click', () => {
+    let selectedOption = document.querySelector('.option.selected');
+    if (selectedOption && selectedOption.dataset.value === questions[currentQuestionIndex].answer) {
+        score++;
+    } 
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        scoreElement.textContent = `${score} / 4`;
+        displayGif(score);
+        scoreContainer.style.display = 'block';
+        nextBtn.style.display = 'none';
+        topicsBtn.style.display = 'inline-block';
+    }
+    nextBtn.style.display = 'none';
+});
+
+function displayGif(score) {
+    let gifUrl = "";
+    let message = "";
+    if (score === 4) {
+        gifUrl = "celebration.gif";
+        message = "🎉 Well done! You got a perfect score!";
+    } else if (score === 0) {
+        gifUrl = "better-luck-next-time.gif";
+        message = "😢 Better luck next time!";
+    } else {
+        gifUrl = "good-job.gif";
+        message = "👍 Good job! Keep practicing!";
+    }
+    gifContainer.innerHTML = `<p>${message}</p><img src="${gifUrl}" alt="Score GIF">`;
+
+    const scoreData = {
+        username: sessionStorage.getItem("username"),  // Retrieve username from session
+        subject:"Maths",
+        quiz_topic: "Arithmetic",
+        score: score,
+        total_questions: questions.length
+    };
+    fetch("http://127.0.0.1:5000/submit_score", {  // Ensure URL is correct
+    method: "POST",  // Make sure it's POST
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(scoreData)
+})
+    .then(response => response.json())
+    .then(data => console.log(data.message))
+    .catch(error => console.error("Error submitting score:", error));
+
+}
+loadQuestion();
+</script>
+</body>
+</html>

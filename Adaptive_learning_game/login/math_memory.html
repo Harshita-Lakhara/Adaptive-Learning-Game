@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Memory Challenge</title>
+    <link rel="stylesheet" href="math_memory.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo"> 
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about-us">About</a></li>
+            <li><a href="subjects.html">Subjects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!--Quit-->
+    <div class="quit-container">
+        <a href="subjects.html" class="quit-btn">Quit</a>
+    </div>
+
+    <h1>Math Memory Challenge</h1>
+    <div id="formula" class="formula-box"></div>
+
+    <div id="countdown"></div> <!-- Countdown Timer -->
+    <div id="options" class="options"></div>
+
+  <!-- Intro-->
+<p id="intro-note" style="font-size: 20px; font-weight: bold; color: rgb(81, 43, 101); text-align: center; margin-bottom: 10px;">
+    🔥 Think fast! You have just 5 seconds to memorize the formula. Can you recall it correctly under pressure? Prove your skills! 🔥
+</p>
+
+<div class="button-container">
+    <button id="start-btn" onclick="startGame()">Start</button>
+</div>
+
+
+    <!-- Reminder-->
+    <p id="reminder" style="display: none; font-size: 18px; color: rgb(81, 43, 101); text-align: center;"></p>
+
+    <p id="result"></p>
+
+    <div class="button-container">
+        <button id="next-btn" onclick="startGame()" style="display: none;">Next</button>
+    </div>
+    
+    <script>
+  const formulas = [
+    "Quadratic: x = (-b ± √(b² - 4ac)) / 2a",
+    "Sum of n Natural Numbers: S = n(n+1)/2",
+    "Arithmetic nth term: a + (n-1)d",
+    "Arithmetic Sum: S = n/2 [2a + (n-1)d]",
+    "Geometric nth term: a × r^(n-1)",
+    "Geometric Sum: S = a(1 - r^n) / (1 - r)",
+    "Permutation: nPr = n! / (n - r)!",
+    "Combination: nCr = n! / (r!(n - r)!)",
+    "Distance: d = √((x₂ - x₁)² + (y₂ - y₁)²)",
+    "Midpoint: M = ((x₁ + x₂)/2 , (y₁ + y₂)/2)",
+    "Slope: m = (y₂ - y₁) / (x₂ - x₁)",
+    "Point-Slope: y - y₁ = m(x - x₁)",
+    "Slope-Intercept: y = mx + c",
+    "Circle: (x - h)² + (y - k)² = r²",
+    "Parabola: y = ax² + bx + c",
+    "Hyperbola: (x²/a²) - (y²/b²) = 1",
+    "Ellipse: (x²/a²) + (y²/b²) = 1",
+    "Polygon Angles: (n-2) × 180°",
+    "Sine Rule: a/sinA = b/sinB = c/sinC",
+    "Cosine Rule: c² = a² + b² - 2ab cosC"
+];
+
+
+    
+    let correctFormula = "";
+    let answered = false;
+    let gameStarted = false; 
+
+function startGame() {
+    document.getElementById("result").innerText = "";
+    document.getElementById("start-btn").style.display = "none"; // Hide start button
+    document.getElementById("next-btn").style.display = "none"; // Hide next button
+    correctFormula = formulas[Math.floor(Math.random() * formulas.length)];
+    document.getElementById("formula").innerText = correctFormula;
+    document.getElementById("options").style.display = "none";
+    answered = false;
+
+    if (!gameStarted) {
+        // Hide intro
+        document.getElementById("intro-note").style.display = "none";
+
+        // Show Reminder
+        document.getElementById("reminder").innerText = "Be ready! The countdown is starting...";
+        document.getElementById("reminder").style.display = "block";
+
+        // Hide Reminder after 3 sec
+        setTimeout(() => {
+            document.getElementById("reminder").style.display = "none";
+            startCountdown();
+        }, 3000);
+
+        gameStarted = true; 
+    } else {
+        startCountdown(); 
+    }
+}
+
+
+    function startCountdown() {
+        let countdown = 5;
+        document.getElementById("countdown").innerText = countdown;
+        document.getElementById("countdown").style.display = "block";
+
+        let timer = setInterval(() => {
+            countdown--;
+            document.getElementById("countdown").innerText = countdown;
+            if (countdown === 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").style.display = "none";
+                document.getElementById("formula").innerText = ""; // Hide formula
+                showOptions();
+            }
+        }, 1000);
+    }
+
+    function showOptions() {
+        document.getElementById("options").style.display = "block";
+        let optionsHTML = "";
+        let shuffled = [...formulas].sort(() => Math.random() - 0.5);
+        shuffled.forEach(f => {
+            optionsHTML += `<button class="option-btn" onclick="checkAnswer(this, '${f}')">${f}</button>`;
+        });
+        document.getElementById("options").innerHTML = optionsHTML;
+    }
+    
+    function checkAnswer(button, selected) {
+        if (answered) return;
+        answered = true;
+    
+        if (selected === correctFormula) {
+            document.getElementById("result").innerText = "Correct! 🎉";
+            button.style.backgroundColor = "green";
+        } else {
+            document.getElementById("result").innerText = "Wrong! ❌";
+            button.style.backgroundColor = "red";
+        }
+    
+        document.querySelectorAll(".option-btn").forEach(btn => btn.disabled = true);
+        document.getElementById("next-btn").style.display = "block"; 
+    }
+    </script>
+    
+</body>
+</html>

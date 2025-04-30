@@ -1,0 +1,166 @@
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('math_memory.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 29px 20px;
+    background: rgb(183 200 186 / 59%);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.logo {
+    position: absolute;
+    left: 0;  
+    top: 50%;
+    transform: translateY(-50%); 
+    padding-left: 15px;
+}
+
+.logo img {
+    height: 50px; 
+    width: auto;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 20px; 
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+.nav-links li {
+    margin: 0 20px;
+}
+
+.nav-links a {
+    color: rgb(74, 30, 102);
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #331c54;
+    text-decoration: underline;
+}
+.quit-container {
+    position: absolute;
+    right: 20px;
+    top: 80px; 
+}
+
+.quit-btn {
+    padding: 10px 20px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: rgb(83, 43, 109);
+    background: #d2cccc;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.quit-btn:hover {
+    background: rgb(83, 77, 77);
+    color: white;
+}
+
+h1 {
+    margin-top: 10px;
+    font-size: 2rem;
+    color: #482971;
+}
+
+.formula-box {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background:rgb(232 232 232 / 0%);
+    color: #2c3e50;
+    padding: 20px;
+    display: inline-block;
+    margin: 20px;
+}
+
+.options {
+    display: none;
+    margin-top: 20px;
+}
+
+.options button {
+    background: #3c7b6e;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.options button:hover {
+    background: #16a085;
+}
+
+#result {
+    font-size: 1.2rem;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #482971;
+}
+#countdown {
+    font-size: 2rem;
+    font-weight: bold;
+    color: red;
+    text-align: center;
+    margin: 20px 0;
+    display: none;
+}
+.button-container {
+    display: flex;
+    justify-content: center; 
+    margin-top: 20px;
+}
+
+button {
+    background: #4d5d80;
+    color: white;
+    border: none;
+    padding: 20px 30px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    margin: 5px;
+}
+
+button:hover {
+    background: #38577e;
+    transform: scale(1.12); 
+}
+
+
+#next-btn {
+    display: none;
+}
+
+

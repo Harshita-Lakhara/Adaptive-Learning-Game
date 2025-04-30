@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Scenario Game</title>
+    <link rel="stylesheet" href="scenario_python.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo"> 
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about-us">About</a></li>
+            <li><a href="subjects.html">Subjects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="quit-container">
+        <a href="coding_scenario.html" class="quit-btn">Quit</a>
+    </div>
+
+    <div class="game-container">
+        <h2 style="color: rgb(77, 39, 113);">🔥💻The Ultimate Code Challenge: Can You Solve It?🧠💡 <h2>
+        <h3>Drag and drop the blocks to form a valid Python function.</h3>
+
+        <div class="code-container"></div>
+
+        <button id="checkOrder">Check Answer</button>
+        <p id="result"></p>
+        <button id="nextQuestion">Next Question</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const codeContainer = document.querySelector(".code-container");
+            const checkButton = document.getElementById("checkOrder");
+            const result = document.getElementById("result");
+            const nextButton = document.getElementById("nextQuestion");
+            nextButton.style.visibility = "hidden";
+            nextButton.style.opacity = "0";
+            
+            let questions = [
+                { 
+                    shuffled: ["print('Hello, World!')", "def say_hello():", "say_hello()", "# Function to print a message", "return"], 
+                    correctOrder: ["# Function to print a message", "def say_hello():", "print('Hello, World!')", "return", "say_hello()"] 
+                },
+                { 
+                    shuffled: ["return x * y", "def multiply(x, y):", "print(multiply(4, 3))", "# Function to multiply two numbers", "x = 4", "y = 3"], 
+                    correctOrder: ["# Function to multiply two numbers", "def multiply(x, y):", "return x * y", "x = 4", "y = 3", "print(multiply(4, 3))"] 
+                },
+            ];
+            let currentQuestionIndex = 0;
+
+            function loadQuestion(index) {
+                if (index >= questions.length) {
+                    document.querySelector(".game-container").innerHTML = "<h2>🎉 Game Over! You've completed all questions. 🎉</h2>";
+                    return;
+                }
+                
+                codeContainer.innerHTML = ""; 
+                let shuffledCode = questions[index].shuffled;
+
+                shuffledCode.forEach((code, i) => {
+                    let div = document.createElement("div");
+                    div.classList.add("code-block");
+                    div.setAttribute("draggable", "true");
+                    div.setAttribute("id", "code" + i);
+                    div.textContent = code;
+                    codeContainer.appendChild(div);
+                });
+
+                addDragAndDrop();
+                result.textContent = "";
+                nextButton.style.visibility = "hidden"; 
+                nextButton.style.opacity = "0"; 
+            }
+
+            function addDragAndDrop() {
+                let draggedItem = null;
+                const codeBlocks = document.querySelectorAll(".code-block");
+
+                codeBlocks.forEach(block => {
+                    block.addEventListener("dragstart", () => {
+                        draggedItem = block;
+                    });
+
+                    block.addEventListener("dragover", (e) => {
+                        e.preventDefault();
+                    });
+
+                    block.addEventListener("drop", (e) => {
+                        e.preventDefault();
+                        if (draggedItem !== block) {
+                            let items = Array.from(codeContainer.children);
+                            let draggedIndex = items.indexOf(draggedItem);
+                            let droppedIndex = items.indexOf(block);
+
+                            if (draggedIndex < droppedIndex) {
+                                codeContainer.insertBefore(draggedItem, block.nextSibling);
+                            } else {
+                                codeContainer.insertBefore(draggedItem, block);
+                            }
+                        }
+                    });
+                });
+            }
+
+            checkButton.addEventListener("click", () => {
+                let currentOrder = Array.from(codeContainer.children).map(block => block.textContent);
+                let correctOrder = questions[currentQuestionIndex].correctOrder;
+
+                if (JSON.stringify(currentOrder) === JSON.stringify(correctOrder)) {
+                    result.textContent = "✅ Correct! You arranged the code properly.";
+                    result.style.color = "green";
+                    nextButton.style.visibility = "visible"; 
+                    nextButton.style.opacity = "1";  
+                } else {
+                    result.textContent = "❌ Incorrect order. Try again!";
+                    result.style.color = "red";
+                }
+            });
+
+            nextButton.addEventListener("click", () => {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            });
+
+            loadQuestion(currentQuestionIndex);
+        });
+    </script>
+
+</body>
+</html>

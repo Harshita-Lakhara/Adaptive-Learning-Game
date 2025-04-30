@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Scenario Game</title>
+    <link rel="stylesheet" href="scenario_physics.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo"> 
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about-us">About</a></li>
+            <li><a href="subjects.html">Subjects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+        <!--Quit-->
+        <div class="quit-container">
+            <a href="science_scenario.html" class="quit-btn">Quit</a>
+        </div>
+    
+        <section class="scenario">
+            <h1 class="scenario-title">Physics Scenario Game</h1>
+            <p id="scenario-description"><strong>Scenario:</strong> You are an astronaut floating in space with no external forces acting on you. You have a wrench in your hand and need to move towards your spaceship. What do you do?</p>
+    
+            <form class="scenario-form">
+                <div class="scenario-content">
+                    <img id="scenario-image" src="astronaut.png" alt="Astronaut in space" class="scenario-image">
+                    <div class="choices">
+                        <button type="button" class="choice-btn" onclick="checkAnswer('A')">A) Throw the wrench in the direction of the spaceship</button>
+                        <button type="button" class="choice-btn" onclick="checkAnswer('B')">B) Throw the wrench in the opposite direction</button>
+                        <button type="button" class="choice-btn" onclick="checkAnswer('C')">C) Hold the wrench and do nothing</button>
+                    </div>
+                </div>
+            </form>
+    
+            <p id="result"></p>
+            <button id="next-btn" class="next-btn" onclick="nextScenario()">Next</button>
+        </section>
+    
+        <script>
+            let currentScenario = 0;
+    
+            const scenarios = [
+                {
+                    description: "<strong>Scenario:</strong> You are an astronaut floating in space with no external forces acting on you. You have a wrench in your hand and need to move towards your spaceship. What do you do?",
+                    image: "astronaut.png",
+                    correctAnswer: "B",
+                    feedback: "✅ Correct! 🎯 According to Newton's Third Law, when you throw the wrench backward, it pushes you forward! 🚀",
+                    choices: [
+                        "A) Throw the wrench in the direction of the spaceship",
+                        "B) Throw the wrench in the opposite direction",
+                        "C) Hold the wrench and do nothing"
+                    ]
+                },
+                {
+                    description: "<strong>Scenario:</strong> A car is moving on a frictionless surface. The driver suddenly turns the steering wheel. What happens to the car?",
+                    image: "car.jpg",
+                    correctAnswer: "C",
+                    feedback: "✅ Correct! 🎯 Without friction, the car will keep moving in a straight line due to inertia.",
+                    choices: [
+                        "A) The car turns instantly",
+                        "B) The car stops",
+                        "C) The car keeps moving in a straight line"
+                    ]
+                },
+                {
+                    description: "<strong>Scenario:</strong> You are pushing a box on the ground, but it is not moving. What force is preventing its motion?",
+                    image: "box.jpg",
+                    correctAnswer: "A",
+                    feedback: "✅ Correct! 🎯 Static friction is opposing your push, preventing motion.",
+                    choices: [
+                        "A) Static friction",
+                        "B) Kinetic friction",
+                        "C) Gravity"
+                    ]
+                }
+            ];
+    
+            function checkAnswer(choice) {
+                let result = document.getElementById("result");
+                let nextButton = document.getElementById("next-btn");
+    
+                result.style.visibility = "visible";
+    
+                if (choice === scenarios[currentScenario].correctAnswer) {
+                    result.innerHTML = scenarios[currentScenario].feedback;
+                    result.className = "result-message correct";
+                    nextButton.style.display = "block"; 
+                } else {
+                    result.textContent = "❌ Incorrect! 🤔 Try again.";
+                    result.className = "result-message wrong";
+                    nextButton.style.display = "none";
+                }
+            }
+    
+            function nextScenario() {
+                currentScenario++;
+    
+                if (currentScenario < scenarios.length) {
+                    document.getElementById("scenario-description").innerHTML = scenarios[currentScenario].description;
+                    document.getElementById("scenario-image").src = scenarios[currentScenario].image;
+                    document.getElementsByClassName("choice-btn")[0].textContent = scenarios[currentScenario].choices[0];
+                    document.getElementsByClassName("choice-btn")[1].textContent = scenarios[currentScenario].choices[1];
+                    document.getElementsByClassName("choice-btn")[2].textContent = scenarios[currentScenario].choices[2];
+    
+                    document.getElementById("result").textContent = ""; 
+                    document.getElementById("next-btn").style.display = "none"; 
+                } else {
+                    document.querySelector(".scenario").innerHTML = "<h1>Game Over 🎉</h1><h2>You've completed all scenarios!</h2>";
+                }
+            }
+        </script>
+</body>
+</html>
